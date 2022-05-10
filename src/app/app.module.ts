@@ -14,13 +14,15 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../environments/environment.dev';
+import { DragFileDirective } from './directives/drag-file.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     PhotosComponent,
     UploadComponent,
-    NavbarComponent
+    NavbarComponent,
+    DragFileDirective
   ],
   imports: [
     BrowserModule,
