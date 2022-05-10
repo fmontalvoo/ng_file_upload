@@ -21,3 +21,11 @@
 .text-green { 
 	color: green 
 }
+
+.mr-2 { 
+	margin-right: 2px 
+}
+
+.ml-2 { 
+	margin-left: 2px 
+}
