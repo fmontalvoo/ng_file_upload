@@ -7,6 +7,12 @@ import { PhotosComponent } from './components/photos/photos.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+
+import { environment } from '../environments/environment.dev';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +22,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage())
   ],
   providers: [],
   bootstrap: [AppComponent]
