@@ -23,12 +23,38 @@ export class DragFileDirective {
 
   @HostListener('dragover', ['$event'])
   public onDragOver(event: any) {
+    this.preventBehavior(event);
     this.onMouseOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
   public onDragLeave(event: any) {
     this.onMouseOver.emit(false);
+  }
+
+  @HostListener('drop', ['$event'])
+  public onDrop(event: any) {
+    const transfer = this.getTransferedFile(event);
+    if (!transfer) return;
+    this.extractFiles(transfer.files);
+    this.preventBehavior(event);
+    this.onMouseOver.emit(false);
+  }
+
+  private getTransferedFile(event: any) {
+    return event.dataTransfer
+      ? event.dataTransfer
+      : event.originalEvent.dataTransfer;
+  }
+
+  private extractFiles(files: FileList) {
+    for (const prop in Object.getOwnPropertyNames(files)) {
+      const tmpFile = files[prop];
+      if (this.fileCanBeUploaded(tmpFile)) {
+        this.images.push(new ImageModel(tmpFile));
+      }
+    }
+    console.log(this.images);
   }
 
   // Validaciones
