@@ -14,7 +14,7 @@ import { ImageModel } from '../models/image.model';
 })
 export class DragFileDirective {
 
-  @Input() private images: ImageModel[] = [];
+  @Input() public images: ImageModel[] = [];
   @Output() private onMouseOver: EventEmitter<boolean>;
 
   constructor() {
@@ -22,18 +22,18 @@ export class DragFileDirective {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver(event: any) {
+  public onDragOver(event: any): void {
     this.preventBehavior(event);
     this.onMouseOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave(event: any) {
+  public onDragLeave(event: any): void {
     this.onMouseOver.emit(false);
   }
 
   @HostListener('drop', ['$event'])
-  public onDrop(event: any) {
+  public onDrop(event: any): void {
     const transfer = this.getTransferedFile(event);
     if (!transfer) return;
     this.extractFiles(transfer.files);
@@ -47,14 +47,13 @@ export class DragFileDirective {
       : event.originalEvent.dataTransfer;
   }
 
-  private extractFiles(files: FileList) {
+  private extractFiles(files: FileList): void {
     for (const prop in Object.getOwnPropertyNames(files)) {
       const tmpFile = files[prop];
       if (this.fileCanBeUploaded(tmpFile)) {
         this.images.push(new ImageModel(tmpFile));
       }
     }
-    console.log(this.images);
   }
 
   // Validaciones
@@ -62,7 +61,7 @@ export class DragFileDirective {
     return this.isImage(file.type) && !this.imageAlreadyExists(file.name);
   }
 
-  private preventBehavior(event: any) {
+  private preventBehavior(event: any): void {
     event.preventDefault();
     event.stopPropagation();
   }

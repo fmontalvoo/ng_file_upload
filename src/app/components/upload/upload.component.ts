@@ -20,8 +20,12 @@ export class UploadComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public uploadImages() {
+  public uploadImages(): void {
     this.ufs.uploadImages(this.images);
+  }
+
+  public removeImages(): void {
+    this.images = [];
   }
 
 }
