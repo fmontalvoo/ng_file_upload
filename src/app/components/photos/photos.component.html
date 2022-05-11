@@ -1,1 +1,10 @@
-<p>photos works!</p>
+<div class="row row-cols-1 row-cols-md-3 g-4" >
+    <div class="col" *ngFor="let image of images">
+        <div class="card">
+            <img [src]="image.url" class="card-img-top" alt="...">
+            <div class="card-footer">
+                <small class="text-muted">{{image.name}}</small>
+            </div>
+        </div>
+    </div>
+</div>

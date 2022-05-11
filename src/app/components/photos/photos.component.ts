@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { Subscription } from 'rxjs';
+
+import { Image } from 'src/app/models/image.model';
+
+import { UploadFilesService } from 'src/app/services/upload-files.service';
 
 @Component({
   selector: 'app-photos',
@@ -6,11 +12,24 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class PhotosComponent implements OnInit {
+export class PhotosComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  public images: Array<Image>;
+  private subscription!: Subscription;
+
+  constructor(private ufs: UploadFilesService) {
+    this.images = new Array();
+  }
 
   ngOnInit(): void {
+    this.subscription = this.ufs.getImages()
+      .subscribe(images => {
+        this.images = images;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
 }

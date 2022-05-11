@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { ImageModel } from '../models/image.model';
+import { ImageModel, Image } from '../models/image.model';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs';
+import { finalize, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,29 @@ export class UploadFilesService {
 
   constructor(private afs: AngularFirestore, private storage: AngularFireStorage) {
 
+  }
+
+  public getImages() {
+    return this.afs
+      .collection<Image>(this.IMAGE_FOLDER)
+      .snapshotChanges()
+      .pipe(
+        map(
+          doc => {
+            if (doc) {
+              const images = doc.map(
+                data => {
+                  const payload = data.payload.doc;
+                  const image = payload.data();
+                  return image;
+                }
+              );
+              return images;
+            }
+            return [];
+          }
+        )
+      );
   }
 
   public saveImage(image: { name: string, url: string }) {

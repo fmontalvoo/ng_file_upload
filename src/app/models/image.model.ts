@@ -48,3 +48,8 @@ export class ImageModel {
     }
 
 }
+
+export interface Image {
+    name: string;
+    url: string;
+}
