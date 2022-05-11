@@ -12,6 +12,7 @@ import { UploadFilesService } from 'src/app/services/upload-files.service';
 })
 export class UploadComponent implements OnInit {
 
+  public isOverElement: boolean = false;
   public images: ImageModel[] = [];
 
   constructor(private ufs: UploadFilesService) { }
